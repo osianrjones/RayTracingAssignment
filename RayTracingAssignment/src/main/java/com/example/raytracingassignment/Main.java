@@ -96,15 +96,53 @@ public class Main extends Application {
     int w = (int) image.getWidth(), h = (int) image.getHeight(), i, j;
     PixelWriter image_writer = image.getPixelWriter();
 
-    double c = green_col / 255.0;
-    Vector col = new Vector(0.5, c, 0.5);
+    double col = 0.0;
+    Vector o = new Vector(0,0,0);
+    Vector d = new Vector(0,0,1);
+    Vector cs = new Vector(0,0,0);
+    double r = 100;
+    Vector p = new Vector(0,0,0);
+    double t;
+    double a;
+    double b;
+    double c;
+    Vector v;
+    Vector Light = new Vector(400,400,400);
+
+
+    //a = d^2
+    //b =
 
     for (j = 0; j < h; j++) {
       for (i = 0; i < w; i++) {
-        image_writer.setColor(i, j, Color.color(col.x, col.y, col.z, 1.0));
+          o.x = i-250;
+          o.y = j-250;
+          o.z = -200;
+          v = o.sub(cs);
+          a = d.dot(d);
+          b = 2*v.dot(d);
+          c = v.dot(v) - r*r;
+          double disc = b * b - 4*a*c;
+          if (disc < 0) col = 0.0;
+          else {
+            col = 1.0;
+          }
+          t = (-b-Math.sqrt(disc))/2 * a;
+          p = o.add(d.mul(t));
+          Vector Lv = Light.sub(p);
+          Lv.normalise();
+          Vector n = p.sub(cs);
+          n.normalise();
+          double dp = Lv.dot(n);
+          if (dp<0) col = 0;
+          else col = dp;
+          if (col>1) col=1;
+          image_writer.setColor(i, j, Color.color(col, col ,col, 1.0));
       } // column loop
     } // row loop
   }
+
+
 
   public static void main(String[] args) {
     launch();
