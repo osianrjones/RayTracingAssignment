@@ -38,14 +38,21 @@ import java.lang.Math.*;
 import javafx.geometry.HPos;
 
 public class Main extends Application {
-  int Width = 640;
-  int Height = 640;
+  int Width = 1000;
+  int Height = 1000;
 
   int green_col = 255; //just for the test example
+
+  ArrayList<Sphere> spheres = new ArrayList<>();
+  Sphere oshSphere = new Sphere(0,0,0,0,1,0,100);
+  Sphere joshSphere = new Sphere(500,500,500,1,0,0,100);
+
 
   @Override
   public void start(Stage stage) throws FileNotFoundException {
     stage.setTitle("Ray Tracing");
+    spheres.add(oshSphere);
+    spheres.add(joshSphere);
 
     //We need 3 things to see an image
     //1. We create an image we can write to
@@ -95,50 +102,41 @@ public class Main extends Application {
     //Get image dimensions, and declare loop variables
     int w = (int) image.getWidth(), h = (int) image.getHeight(), i, j;
     PixelWriter image_writer = image.getPixelWriter();
-
+    Vector cs = null;
+    double r = 0;
     double col = 0.0; //Colour to reflect
     Vector o = new Vector(0,0,0);  //Origin of the ray
     Vector d = new Vector(0,0,1); //Direction of ray
-    Vector cs = new Vector(0,0,0); //Centre of sphere
-    double r = 100; //radius of sphere
-    Vector p = new Vector(0,0,0); //p is a 3D point on the sphere
-    double t; //The intersect point with the ray
-    double a; //direction of ray ^ 2
-    double b; //2vd
-    double c; //v^2-r^2
-    Vector v; //A line from the centre of the sphere to the origin
+
+
     Vector Light = new Vector(400,400,400);
 
 
     for (j = 0; j < h; j++) {
       for (i = 0; i < w; i++) {
-          o.x = i-250; //x value of the origin
-          o.y = j-250; //y value of the origin
-          o.z = -200; //z value of the origin
-          v = o.sub(cs); //Calculate the vector of the origin to the centre of the sphere
-          a = d.dot(d); //Calculate a
-          b = 2*v.dot(d);  //Calculate b
-          c = v.dot(v) - r*r; //Calculate c
-          double disc = b * b - 4*a*c; //Calculate discriminant
-          if (disc < 0) col = 0.0;
-          else {        //Checks if discriminant <0 or >0 as if <0 background pixel else return 1 which is hit
-            col = 1.0;
+          ArrayList<Double> intersects = new ArrayList<>();
+          for (Sphere sphere: spheres) {
+              intersects.add(sphere.intersect(o, Light, d, h, w, j, i));
           }
-          t = (-b-Math.sqrt(disc))/2 * a; //Intersect point as double value
-          p = o.add(d.mul(t)); //Vector at point t
-          Vector Lv = Light.sub(p); //Light vector from origin to intersect
-          Lv.normalise(); //Normalise within range
-          Vector n = p.sub(cs); //Surface normal vector perpendicular to the surface tangent at any time, used when moving sphere
-          n.normalise();
-          double dp = Lv.dot(n); //Calculate where the light hits the sphere
-          if (dp<0) col = 0; //If negative, background hit
-          else col = dp; //else colour is the dp
-          if (col>1) col=1; //Keep within range of 0-1.
-          image_writer.setColor(i, j, Color.color(col, col ,col, 1.0));
+          double lowest = 999;
+          int lowestIndex = -1;
+          for (int k = 0; k < intersects.size(); k++) {
+              if (intersects.get(k) != 0) {
+                  if (intersects.get(k) < lowest) {
+                      lowest = intersects.get(k);
+                      lowestIndex = k;
+                  }
+              }
+          }
+          if (lowestIndex != -1) {
+              image_writer.setColor(i, j, Color.color(spheres.get(lowestIndex).r, spheres.get(lowestIndex).g ,spheres.get(lowestIndex).b, 1.0));
+          } else {
+              image_writer.setColor(i,j,Color.color(1,1,1, 1.0));
+          }
+
       } // column loop
     } // row loop
   }
-
 
 
   public static void main(String[] args) {
