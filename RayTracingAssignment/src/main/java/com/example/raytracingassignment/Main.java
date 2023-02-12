@@ -42,8 +42,8 @@ import java.util.Objects;
 import javafx.geometry.HPos;
 
 public class Main extends Application {
-  int Width = 720;
-  int Height = 500;
+  public static int Width = 720;
+  public static int Height = 500;
 
   int green_col = 255; //just for the test example
 
@@ -51,15 +51,22 @@ public class Main extends Application {
   Sphere sphereOne = new Sphere(0,0,100,0,1,0.5,50, "sphereOne");
   Sphere sphereTwo = new Sphere(100,100,0,1,0,0,50, "sphereTwo");
 
+  public static Stage stage;
 
-  @Override
+    public static Stage getStage() {
+        return stage;
+    }
+
+    @Override
   public void start(Stage stage) throws IOException {
+      this.stage = stage;
     stage.setTitle("Ray Tracing");
     spheres.add(sphereOne);
     spheres.add(sphereTwo);
 
     //We need 3 things to see an image
     //1. We create an image we can write to
+    /*
     WritableImage image = new WritableImage(Width, Height);
     //2. We create a view of that image
     ImageView view = new ImageView(image);
@@ -87,7 +94,7 @@ public class Main extends Application {
     });
 
     Render(image);
-    /*
+
     GridPane root = new GridPane();
     root.setVgap(12);
     root.setHgap(12);
@@ -100,12 +107,14 @@ public class Main extends Application {
     */
     //Display to user
       Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+
   }
 
-  public void Render(WritableImage image) {
+  public static void Render(WritableImage image) {
     //Get image dimensions, and declare loop variables
     int w = (int) image.getWidth(), h = (int) image.getHeight(), i, j;
     PixelWriter image_writer = image.getPixelWriter();
@@ -145,6 +154,12 @@ public class Main extends Application {
       return spheres;
   }
 
+  public static int getWidth() {
+      return Width;
+  }
+  public static int getHeight() {
+      return Height;
+  }
   public static void main(String[] args) {
     launch();
   }

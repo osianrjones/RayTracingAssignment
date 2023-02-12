@@ -3,6 +3,10 @@ package com.example.raytracingassignment;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,11 +32,14 @@ public class HelloController {
     public Slider cameraAzimuth;
     public Slider cameraAltitude;
 
+    public ImageView imageView;
+
     public void setSphereOne() {
         ArrayList<Sphere> spheres = Main.getSpheres();
         for (Sphere sphere: spheres) {
             if (Objects.equals(sphere.getSphereName(), "sphereOne")) currentSphere = sphere;
         }
+
     }
 
     public void setSphereTwo() {
@@ -58,7 +65,12 @@ public class HelloController {
     }
 
     public void initialize() {
-
+        WritableImage image = new WritableImage(Main.getWidth(), Main.getHeight());
+        System.out.println(imageView);
+        imageView = new ImageView(image);
+        Main.Render(image);
+        System.out.println(imageView);
+        System.out.println("got here");
     }
 
 
