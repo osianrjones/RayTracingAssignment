@@ -14,6 +14,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -35,6 +37,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.io.*;
 import java.lang.Math.*;
+import java.util.Objects;
+
 import javafx.geometry.HPos;
 
 public class Main extends Application {
@@ -43,16 +47,16 @@ public class Main extends Application {
 
   int green_col = 255; //just for the test example
 
-  ArrayList<Sphere> spheres = new ArrayList<>();
-  Sphere oshSphere = new Sphere(0,0,100,0,1,0.5,50);
-  Sphere joshSphere = new Sphere(100,100,0,1,0,0,50);
+  public static ArrayList<Sphere> spheres = new ArrayList<>();
+  Sphere sphereOne = new Sphere(0,0,100,0,1,0.5,50, "sphereOne");
+  Sphere sphereTwo = new Sphere(100,100,0,1,0,0,50, "sphereTwo");
 
 
   @Override
-  public void start(Stage stage) throws FileNotFoundException {
+  public void start(Stage stage) throws IOException {
     stage.setTitle("Ray Tracing");
-    spheres.add(oshSphere);
-    spheres.add(joshSphere);
+    spheres.add(sphereOne);
+    spheres.add(sphereTwo);
 
     //We need 3 things to see an image
     //1. We create an image we can write to
@@ -63,6 +67,7 @@ public class Main extends Application {
 
     //Create the simple GUI
     Slider g_slider = new Slider(0, 255, green_col);
+
 
     //Add all the event handlers
     g_slider.valueProperty().addListener(
@@ -82,18 +87,20 @@ public class Main extends Application {
     });
 
     Render(image);
-
+    /*
     GridPane root = new GridPane();
     root.setVgap(12);
     root.setHgap(12);
 
     //3. (referring to the 3 things we need to display an image)
     //we need to add it to the pane
+
     root.add(view, 0, 0);
     root.add(g_slider, 0, 1);
-
+    */
     //Display to user
-    Scene scene = new Scene(root, 720, 1000);
+      Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+    Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
@@ -134,7 +141,9 @@ public class Main extends Application {
       } // column loop
     } // row loop
   }
-
+  public static ArrayList<Sphere> getSpheres() {
+      return spheres;
+  }
 
   public static void main(String[] args) {
     launch();

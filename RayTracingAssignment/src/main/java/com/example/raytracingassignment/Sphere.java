@@ -7,14 +7,22 @@ public class Sphere {
     double g;
     double b;
     double col;
-    public Sphere(int x, int y, int z, double r, double g, double b, double radius) {
+    private String sphereName;
+    int x;
+    int y;
+    int z;
+    public Sphere(int x, int y, int z, double r, double g, double b, double radius, String sphereName) {
         this.radius = radius;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         cs = new Vector(x, y , z);
         if ((r <= 1) && (g <= 1) && (b <= 1)) {
             this.r = r;
             this.g = g;
             this.b = b;
         }
+        this.sphereName = sphereName;
     }
     public Vector centreOfSphere() {
         return cs;
@@ -65,5 +73,19 @@ public class Sphere {
     }
     public double getCol() {
         return this.col;
+    }
+    public String getSphereName() {
+        return this.sphereName;
+    }
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getZ() {
+        return z;
     }
 }

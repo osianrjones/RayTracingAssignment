@@ -2,15 +2,61 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.raytracingassignment.HelloController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.raytracingassignment.HelloController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
+    <AnchorPane minHeight="501.0" minWidth="720.0" prefHeight="906.0" prefWidth="720.0">
+        <ImageView id="imageView" fitHeight="517.0" fitWidth="720.0" layoutY="1.0" pickOnBounds="true"
+                   preserveRatio="true"/>
+        <Slider id="redSlider" layoutX="75.0" layoutY="549.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true"/>
+        <Slider id="greenSlider" layoutX="75.0" layoutY="586.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true"/>
+        <Slider id="blueSlider" layoutX="75.0" layoutY="626.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true"/>
+        <RadioButton id="sphereOne" layoutX="610.0" layoutY="548.0" mnemonicParsing="false" onAction="#setSphereOne"
+                     text="Sphere 1">
+           <toggleGroup>
+               <ToggleGroup fx:id="chooseSphere"/>
+           </toggleGroup>
+        </RadioButton>
+        <RadioButton id="sphereTwo" layoutX="610.0" layoutY="578.0" mnemonicParsing="false" onAction="#setSphereTwo"
+                     text="Sphere 2" toggleGroup="$chooseSphere"/>
+        <RadioButton id="sphereThree" layoutX="610.0" layoutY="609.0" mnemonicParsing="false" onAction="#setSphereThree"
+                     text="Sphere 3" toggleGroup="$chooseSphere"/>
+        <RadioButton id="sphereFour" layoutX="610.0" layoutY="640.0" mnemonicParsing="false" onAction="#setSphereFour"
+                     text="Sphere 4" toggleGroup="$chooseSphere"/>
+        <Label layoutX="26.0" layoutY="548.0" text="Red"/>
+        <Label layoutX="26.0" layoutY="587.0" text="Green"/>
+        <Label layoutX="26.0" layoutY="625.0" text="Blue"/>
+        <Slider id="sphereX" layoutX="75.0" layoutY="664.0" max="250.0" min="-250.0" onScroll="#changeSphereX"
+                prefHeight="14.0" prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
+        <Slider id="sphereY" layoutX="75.0" layoutY="698.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true"/>
+        <Slider id="sphereZ" layoutX="75.0" layoutY="732.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true"/>
+        <Label layoutX="18.0" layoutY="664.0" text="Sphere X"/>
+        <Label layoutX="14.0" layoutY="694.0" text="Sphere Y"/>
+        <Label layoutX="18.0" layoutY="728.0" text="Sphere Z"/>
+        <Slider id="sphereRadius" layoutX="75.0" layoutY="770.0" max="800.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+        <Label layoutX="24.0" layoutY="770.0" prefHeight="38.0" prefWidth="47.0" text="Sphere Radius" wrapText="true"/>
+        <Label layoutX="19.0" layoutY="816.0" prefHeight="38.0" prefWidth="47.0" text="Camera Azimuth" wrapText="true"/>
+        <Slider id="cameraAzimuth" layoutX="75.0" layoutY="816.0" max="360.0" minorTickCount="5" prefHeight="14.0"
+                prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
+        <Label layoutX="19.0" layoutY="854.0" prefHeight="38.0" prefWidth="47.0" text="Camera Altitude"
+               wrapText="true"/>
+        <Slider id="cameraAltitude" layoutX="75.0" layoutY="854.0" max="89.0" min="-89.0" minorTickCount="5"
+                prefHeight="14.0" prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
+    </AnchorPane>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Label fx:id="welcomeText" />
 </VBox>
