@@ -38,14 +38,14 @@ import java.lang.Math.*;
 import javafx.geometry.HPos;
 
 public class Main extends Application {
-  int Width = 1000;
-  int Height = 1000;
+  int Width = 720;
+  int Height = 500;
 
   int green_col = 255; //just for the test example
 
   ArrayList<Sphere> spheres = new ArrayList<>();
-  Sphere oshSphere = new Sphere(0,0,0,0,1,0,100);
-  Sphere joshSphere = new Sphere(500,500,500,1,0,0,100);
+  Sphere oshSphere = new Sphere(0,0,100,0,1,0.5,50);
+  Sphere joshSphere = new Sphere(100,100,0,1,0,0,50);
 
 
   @Override
@@ -93,7 +93,7 @@ public class Main extends Application {
     root.add(g_slider, 0, 1);
 
     //Display to user
-    Scene scene = new Scene(root, 1024, 768);
+    Scene scene = new Scene(root, 720, 1000);
     stage.setScene(scene);
     stage.show();
   }
@@ -102,14 +102,11 @@ public class Main extends Application {
     //Get image dimensions, and declare loop variables
     int w = (int) image.getWidth(), h = (int) image.getHeight(), i, j;
     PixelWriter image_writer = image.getPixelWriter();
-    Vector cs = null;
-    double r = 0;
-    double col = 0.0; //Colour to reflect
     Vector o = new Vector(0,0,0);  //Origin of the ray
     Vector d = new Vector(0,0,1); //Direction of ray
 
 
-    Vector Light = new Vector(400,400,400);
+    Vector Light = new Vector(100,100,-100);
 
 
     for (j = 0; j < h; j++) {
@@ -129,9 +126,9 @@ public class Main extends Application {
               }
           }
           if (lowestIndex != -1) {
-              image_writer.setColor(i, j, Color.color(spheres.get(lowestIndex).r, spheres.get(lowestIndex).g ,spheres.get(lowestIndex).b, 1.0));
+              image_writer.setColor(i, j, Color.color(spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).r, spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).g ,spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).b, 1.0));
           } else {
-              image_writer.setColor(i,j,Color.color(1,1,1, 1.0));
+              image_writer.setColor(i,j,Color.color(0,0,0, 1.0));
           }
 
       } // column loop
