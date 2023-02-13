@@ -1,5 +1,6 @@
 package com.example.raytracingassignment;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
@@ -32,6 +33,7 @@ public class HelloController {
     public Slider cameraAzimuth;
     public Slider cameraAltitude;
 
+    @FXML
     public ImageView imageView;
 
     public void setSphereOne() {
@@ -64,12 +66,20 @@ public class HelloController {
         this.currentSphere.cs = new Vector(sphereX.getValue(), this.currentSphere.getY(), this.currentSphere.getZ());
     }
 
-    public void initialize() {
+    public void displayImage() {
+        //Call from initialize?
         WritableImage image = new WritableImage(Main.getWidth(), Main.getHeight());
-        System.out.println(imageView);
-        imageView = new ImageView(image);
         Main.Render(image);
-        System.out.println(imageView);
+        imageView.setImage(image);
+    }
+
+    public void initialize() {
+        /*
+        Need to use @fxml tag on variables
+        Maybe get render to return the writable image which has been updated
+        imageView.setImage(image)
+         */
+        displayImage();
         System.out.println("got here");
     }
 
