@@ -95,4 +95,26 @@ public class Sphere {
     public int getZ() {
         return z;
     }
+
+    public void updateR(double r) {
+        this.r = r;
+    }
+    public void updateG(double g) {
+        this.g = g;
+    }
+    public void updateB(double b) {
+        this.b = b;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setZ(int z) {
+        this.z = z;
+    }
+
+
 }

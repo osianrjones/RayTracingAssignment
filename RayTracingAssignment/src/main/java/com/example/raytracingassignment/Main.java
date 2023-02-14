@@ -27,7 +27,7 @@ public class Main extends Application {
     public static ArrayList<Sphere> spheres = new ArrayList<>();
     public static Stage stage;
     int green_col = 255; //just for the test example
-    Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0.5, 50, "sphereOne");
+    Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0, 50, "sphereOne");
     Sphere sphereTwo = new Sphere(100, 100, 0, 1, 0, 0, 50, "sphereTwo");
 
     public static Stage getStage() {
