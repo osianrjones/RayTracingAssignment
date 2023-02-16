@@ -8,15 +8,15 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="900.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      prefHeight="900.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.raytracingassignment.HelloController">
     <children>
-        <Slider id="redSlider" layoutX="85.0" layoutY="559.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
-                showTickLabels="true" showTickMarks="true"/>
-        <Slider id="greenSlider" layoutX="85.0" layoutY="596.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
-                showTickLabels="true" showTickMarks="true"/>
-        <Slider id="blueSlider" layoutX="85.0" layoutY="636.0" max="255.0" prefHeight="14.0" prefWidth="517.0"
-                showTickLabels="true" showTickMarks="true"/>
+        <Slider fx:id="redSlider" layoutX="85.0" layoutY="559.0" max="1.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true" onDragDetected="#changeRedColour"/>
+        <Slider fx:id="greenSlider" layoutX="85.0" layoutY="596.0" max="1.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true" onDragDetected="#changeGreenColour"/>
+        <Slider fx:id="blueSlider" layoutX="85.0" layoutY="636.0" max="1.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true" onDragDetected="#changeBlueColour"/>
         <RadioButton id="sphereOne" layoutX="620.0" layoutY="558.0" mnemonicParsing="false" onAction="#setSphereOne"
                      text="Sphere 1">
             <toggleGroup>
@@ -35,26 +35,26 @@
         <Label layoutX="36.0" layoutY="558.0" text="Red"/>
         <Label layoutX="36.0" layoutY="597.0" text="Green"/>
         <Label layoutX="36.0" layoutY="635.0" text="Blue"/>
-        <Slider id="sphereX" layoutX="85.0" layoutY="674.0" max="250.0" min="-250.0" onScroll="#changeSphereX"
+        <Slider fx:id="sphereX" layoutX="85.0" layoutY="674.0" max="250.0" min="-250.0" onScroll="#changeSphereX"
                 prefHeight="14.0" prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
-        <Slider id="sphereY" layoutX="85.0" layoutY="708.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
+        <Slider fx:id="sphereY" layoutX="85.0" layoutY="708.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
                 showTickLabels="true" showTickMarks="true"/>
-        <Slider id="sphereZ" layoutX="85.0" layoutY="742.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
+        <Slider fx:id="sphereZ" layoutX="85.0" layoutY="742.0" max="250.0" min="-250.0" prefHeight="14.0" prefWidth="517.0"
                 showTickLabels="true" showTickMarks="true"/>
         <Label layoutX="28.0" layoutY="674.0" text="Sphere X"/>
         <Label layoutX="24.0" layoutY="704.0" text="Sphere Y"/>
         <Label layoutX="28.0" layoutY="738.0" text="Sphere Z"/>
-        <Slider id="sphereRadius" layoutX="85.0" layoutY="780.0" max="800.0" prefHeight="14.0" prefWidth="517.0"
-                showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+        <Slider fx:id="sphereRadius" layoutX="85.0" layoutY="780.0" min="10.0" max="800.0" prefHeight="14.0" prefWidth="517.0"
+                showTickLabels="true" showTickMarks="true" snapToTicks="true" onDragDetected="#changeCurrentSphereRadius"/>
         <Label layoutX="34.0" layoutY="780.0" prefHeight="38.0" prefWidth="47.0" text="Sphere Radius" wrapText="true"/>
         <Label layoutX="29.0" layoutY="826.0" prefHeight="38.0" prefWidth="47.0" text="Camera Azimuth" wrapText="true"/>
         <Slider id="cameraAzimuth" layoutX="85.0" layoutY="826.0" max="360.0" minorTickCount="5" prefHeight="14.0"
                 prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
         <Label layoutX="29.0" layoutY="864.0" prefHeight="38.0" prefWidth="47.0" text="Camera Altitude"
                wrapText="true"/>
-        <Slider id="cameraAltitude" layoutX="85.0" layoutY="864.0" max="89.0" min="-89.0" minorTickCount="5"
-                prefHeight="14.0" prefWidth="517.0" showTickLabels="true" showTickMarks="true"/>
-        <ImageView fitHeight="535.0" fitWidth="696.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true"
+        <Slider fx:id="cameraAltitude" layoutX="85.0" layoutY="864.0" max="89.0" min="-89.0" minorTickCount="5"
+                prefHeight="14.0" prefWidth="517.0" showTickLabels="true" showTickMarks="true" onDragDetected="#changeCameraAltitude"/>
+        <ImageView fx:id = "imageView" fitHeight="535.0" fitWidth="696.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true"
                    preserveRatio="true"/>
     </children>
 </Pane>
