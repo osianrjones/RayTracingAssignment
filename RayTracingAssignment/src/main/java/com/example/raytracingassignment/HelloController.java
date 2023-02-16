@@ -120,6 +120,11 @@ public class HelloController {
         render();
     }
 
+    public void changeCameraAltitude() {
+        Main.changeO((int) cameraAltitude.getValue());
+        render();
+    }
+
     public void render() {
         Main.Render(image);
     }
@@ -134,6 +139,7 @@ public class HelloController {
         this.sphereY.adjustValue(this.currentSphere.getY());
         this.sphereZ.adjustValue(this.currentSphere.getZ());
         this.sphereRadius.adjustValue(this.currentSphere.getRadius());
+        this.cameraAltitude.adjustValue(Main.getCameraHeight());
     }
     public void setCurrentSphereColourSliders() {
         this.redSlider.adjustValue(this.currentSphere.r);
@@ -155,6 +161,8 @@ public class HelloController {
         sphereY.valueProperty().addListener((observableValue, oldValue, newValue) -> changeSphereY());
         sphereZ.valueProperty().addListener((observableValue, oldValue, newValue) -> changeSphereZ());
         sphereRadius.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCurrentSphereRadius());
+        cameraAltitude.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCameraAltitude());
+
     }
 
     public void initialize() {

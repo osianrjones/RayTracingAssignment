@@ -29,6 +29,13 @@ public class Main extends Application {
     int green_col = 255; //just for the test example
     Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0, 50, "sphereOne");
     Sphere sphereTwo = new Sphere(100, 100, 0, 1, 0, 0, 50, "sphereTwo");
+    Sphere sphereThree = new Sphere(-100,0,0,0,0,1,50,"sphereThree");
+    Sphere sphereFour = new Sphere(-200,0,0,0,0,1,50,"sphereFour");
+
+    public static Vector d = new Vector(0, 0, 1);
+    public static int cameraHeight = 0;
+    public static Vector o = new Vector(0, cameraHeight, 0);
+
 
     public static Stage getStage() {
         return stage;
@@ -38,11 +45,11 @@ public class Main extends Application {
         //Get image dimensions, and declare loop variables
         int w = (int) image.getWidth(), h = (int) image.getHeight(), i, j;
         PixelWriter image_writer = image.getPixelWriter();
-        Vector o = new Vector(0, 0, 0);  //Origin of the ray
-        Vector d = new Vector(0, 0, 1); //Direction of ray
+        //o = new Vector(0, 0, 0);  //Origin of the ray
+        //d = new Vector(0, 0, 1); //Direction of ray
+        //Vector vp
 
-
-        Vector Light = new Vector(100, 100, -100);
+        Vector Light = new Vector(0, 0, -100);
 
 
         for (j = 0; j < h; j++) {
@@ -71,12 +78,21 @@ public class Main extends Application {
         } // row loop
     }
 
+
     public static ArrayList<Sphere> getSpheres() {
         return spheres;
     }
 
     public static int getWidth() {
         return Width;
+    }
+
+    public static void changeO(int height) {
+       cameraHeight = height;
+    }
+
+    public static int getCameraHeight() {
+        return cameraHeight;
     }
 
     public static int getHeight() {
@@ -93,6 +109,10 @@ public class Main extends Application {
         stage.setTitle("Ray Tracing");
         spheres.add(sphereOne);
         spheres.add(sphereTwo);
+        spheres.add(sphereThree);
+        spheres.add(sphereFour);
+
+
 
         //We need 3 things to see an image
         //1. We create an image we can write to
