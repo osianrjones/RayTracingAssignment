@@ -22,19 +22,18 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Main extends Application {
-    public static int Width = 720;
+    public static int Width = 750;
     public static int Height = 500;
     public static ArrayList<Sphere> spheres = new ArrayList<>();
     public static Stage stage;
-    int green_col = 255; //just for the test example
-    Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0, 50, "sphereOne");
+    Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0, 100, "sphereOne");
     Sphere sphereTwo = new Sphere(100, 100, 0, 1, 0, 0, 50, "sphereTwo");
-    Sphere sphereThree = new Sphere(-100,0,0,0,0,1,50,"sphereThree");
-    Sphere sphereFour = new Sphere(-200,0,0,0,0,1,50,"sphereFour");
+    Sphere sphereThree = new Sphere(-100, 0, 0, 0, 0, 1, 50, "sphereThree");
+    Sphere sphereFour = new Sphere(-200, 0, 0, 0, 0, 1, 50, "sphereFour");
+    public static int cameraHeight = 0;
+    public static Camera camera = new Camera(0, cameraHeight ,0);
 
     public static Vector d = new Vector(0, 0, 1);
-    public static int cameraHeight = 0;
-    public static Vector o = new Vector(0, cameraHeight, 0);
 
 
     public static Stage getStage() {
@@ -49,30 +48,46 @@ public class Main extends Application {
         //d = new Vector(0, 0, 1); //Direction of ray
         //Vector vp
 
-        Vector Light = new Vector(0, 0, -100);
+        Vector Light = new Vector(0, 0, -600);
+
 
 
         for (j = 0; j < h; j++) {
             for (i = 0; i < w; i++) {
-                ArrayList<Double> intersects = new ArrayList<>();
-                for (Sphere sphere : spheres) {
-                    intersects.add(sphere.intersect(o, Light, d, h, w, j, i));
-                }
-                double lowest = 999;
-                int lowestIndex = -1;
-                for (int k = 0; k < intersects.size(); k++) {
-                    if (intersects.get(k) != 0) {
-                        if (intersects.get(k) < lowest) {
-                            lowest = intersects.get(k);
-                            lowestIndex = k;
-                        }
+                image_writer.setColor(i, j, Color.color(0.5, 0.5, 0.5));
+                double colour = spheres.get(0).intersect(Camera.getOrigin(), Light, d, h, w, j, i);
+                boolean ambient = camera.intersect(spheres.get(0),d,h,w,j,i);
+                double S = spheres.get(0).r + spheres.get(0).g + spheres.get(0).b;
+
+                double ambientLight = 0.4;
+
+
+                if (spheres.get(0).getCol() > 0.0) {
+                    double col = Math.max(spheres.get(0).getCol(), ambientLight);
+                    double diffuseR = (col * spheres.get(0).r);
+                    double ambientR = (col* ambientLight);
+                    double R = diffuseR;
+                    if (R > 1) {
+                        R = 1;
                     }
+                    double diffuseG = (col * spheres.get(0).g);
+                    double ambientG = (col * ambientLight);
+                    double G = diffuseG;
+                    if (G > 1) {
+                        G = 1;
+                    }
+                    double diffuseB = (col * spheres.get(0).b);
+                    double ambientB = (col * ambientLight);
+                    double B = diffuseB;
+                    if (B > 1) {
+                        B = 1;
+                    }
+
+                    image_writer.setColor(i, j, Color.color(R,G,B));
+                } else if (ambient && spheres.get(0).getCol() == 0) {
+                    image_writer.setColor(i,j, Color.color(spheres.get(0).r * ambientLight, spheres.get(0).g * ambientLight, spheres.get(0).b * ambientLight));
                 }
-                if (lowestIndex != -1) {
-                    image_writer.setColor(i, j, Color.color(spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).r, spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).g, spheres.get(lowestIndex).getCol() * spheres.get(lowestIndex).b, 1.0));
-                } else {
-                    image_writer.setColor(i, j, Color.color(0, 0, 0, 1.0));
-                }
+
 
             } // column loop
         } // row loop
@@ -88,7 +103,7 @@ public class Main extends Application {
     }
 
     public static void changeO(int height) {
-       cameraHeight = height;
+        cameraHeight = height;
     }
 
     public static int getCameraHeight() {
@@ -108,10 +123,10 @@ public class Main extends Application {
         Main.stage = stage;
         stage.setTitle("Ray Tracing");
         spheres.add(sphereOne);
-        spheres.add(sphereTwo);
-        spheres.add(sphereThree);
-        spheres.add(sphereFour);
 
+        //spheres.add(sphereTwo);
+        //spheres.add(sphereThree);
+        //spheres.add(sphereFour);
 
 
         //We need 3 things to see an image
