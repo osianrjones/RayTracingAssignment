@@ -11,6 +11,8 @@ public class Sphere {
     int y;
     int z;
     private final String sphereName;
+    public  double lowestShade = 999;
+    public boolean canSeeSpheres = false;
 
     public Sphere(int x, int y, int z, double r, double g, double b, double radius, String sphereName) {
         this.radius = radius;
@@ -34,7 +36,8 @@ public class Sphere {
         return radius;
     }
 
-    public double intersect(Vector origin, Vector Light, Vector direction, int height, int width, int j, int i) {
+    public void intersect(Vector origin, Vector Light, Vector direction, int height, int width, int j, int i) {
+
         double t; //The intersect point with the ray
         double t1;
         double t2;
@@ -43,11 +46,10 @@ public class Sphere {
         double c; //v^2-r^2
         Vector p = new Vector(0, 0, 0); //p is a 3D point on the sphere
         Vector v; //A line from the centre of the sphere to the origin
-        double col = 0.0;
 
-        origin.x = Camera.getX(); //x value of the origin
-        origin.y = Camera.getY(); //y value of the origin
-        origin.z = Camera.getZ(); //z value of the origin
+        origin.x = i - width/2; //x value of the origin
+        origin.y = j - height/2; //y value of the origin
+        //z value of the origin
 
         v = origin.sub(cs); //Calculate the vector of the origin to the centre of the sphere
         a = direction.dot(direction); //Calculate a
@@ -58,22 +60,30 @@ public class Sphere {
             else {
                 this.col = 1.0;
             }
-            t1 = (b-Math.sqrt(disc) / 2 * a);
+            t1 = (-b+Math.sqrt(disc) / 2 * a);
             t2 = (-b-Math.sqrt(disc) / 2 * a);
             t = Math.min(t1, t2);
             p = origin.add(direction.mul(t));
             Vector LightVector = Light.sub(p);
             LightVector.normalise();
-            Vector n = p.sub(cs);
+            Vector n = p.sub(this.cs);
             n.normalise();
             double shade = LightVector.dot(n);
+
             if (shade < 0) {
                 this.col = 0;
             }
              else {
                  this.col = shade;
             }
-            return col;
+             if (this.col < 0.4) {
+                 this.col = 0.4;
+
+             }
+        if (this.col < lowestShade) {
+            lowestShade = this.col;
+        }
+
         }
 
     public double getCol() {

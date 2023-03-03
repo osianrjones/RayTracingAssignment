@@ -26,12 +26,13 @@ public class Main extends Application {
     public static int Height = 500;
     public static ArrayList<Sphere> spheres = new ArrayList<>();
     public static Stage stage;
-    Sphere sphereOne = new Sphere(0, 0, 100, 0, 1, 0, 100, "sphereOne");
+    Sphere sphereOne = new Sphere(0, 0, 1, 0, 1, 0, 50, "sphereOne");
     Sphere sphereTwo = new Sphere(100, 100, 0, 1, 0, 0, 50, "sphereTwo");
     Sphere sphereThree = new Sphere(-100, 0, 0, 0, 0, 1, 50, "sphereThree");
     Sphere sphereFour = new Sphere(-200, 0, 0, 0, 0, 1, 50, "sphereFour");
     public static int cameraHeight = 0;
-    public static Camera camera = new Camera(0, cameraHeight ,0);
+    public static Camera camera = new Camera(0, cameraHeight ,-500);
+
 
     public static Vector d = new Vector(0, 0, 1);
 
@@ -49,50 +50,69 @@ public class Main extends Application {
         //Vector vp
 
         Vector Light = new Vector(0, 0, -600);
+        for (Sphere sphere : spheres) {
+            sphere.canSeeSpheres = camera.intersect(sphere,d,h,w);
+        }
 
-
-
+        if (Main.canSeeSpheres()) {
         for (j = 0; j < h; j++) {
             for (i = 0; i < w; i++) {
-                image_writer.setColor(i, j, Color.color(0.5, 0.5, 0.5));
-                double colour = spheres.get(0).intersect(Camera.getOrigin(), Light, d, h, w, j, i);
-                boolean ambient = camera.intersect(spheres.get(0),d,h,w,j,i);
-                double S = spheres.get(0).r + spheres.get(0).g + spheres.get(0).b;
+                image_writer.setColor(i, j, Color.color(0, 0, 0));
+                for (Sphere sphere : spheres) {
+                    sphere.intersect(Camera.getOrigin(), Light, d, h, w, j, i);
 
-                double ambientLight = 0.4;
+                    double ambientLight = 0.4;
 
 
-                if (spheres.get(0).getCol() > 0.0) {
-                    double col = Math.max(spheres.get(0).getCol(), ambientLight);
-                    double diffuseR = (col * spheres.get(0).r);
-                    double ambientR = (col* ambientLight);
-                    double R = diffuseR;
-                    if (R > 1) {
-                        R = 1;
+                    if (sphere.getCol() > 0.0) {
+                        double col = Math.max(sphere.getCol(), ambientLight);
+                        double diffuseR = (col * sphere.r);
+                        double ambientR = (col * ambientLight);
+                        double R = diffuseR + ambientR;
+                        if (R > 1) {
+                            R = 1;
+                        }
+                        double diffuseG = (col * sphere.g);
+                        double ambientG = (col * ambientLight);
+                        double G = diffuseG + ambientG;
+                        if (G > 1) {
+                            G = 1;
+                        }
+                        double diffuseB = (col * sphere.b);
+                        double ambientB = (col * ambientLight);
+                        double B = diffuseB + ambientB;
+                        if (B > 1) {
+                            B = 1;
+                        }
+
+                        image_writer.setColor(i, j, Color.color(R, G, B));
+                    } else if (sphere.getCol() == 0) {
+                        image_writer.setColor(i, j, Color.color(sphere.r * ambientLight, sphere.g * ambientLight, sphere.b * ambientLight));
                     }
-                    double diffuseG = (col * spheres.get(0).g);
-                    double ambientG = (col * ambientLight);
-                    double G = diffuseG;
-                    if (G > 1) {
-                        G = 1;
-                    }
-                    double diffuseB = (col * spheres.get(0).b);
-                    double ambientB = (col * ambientLight);
-                    double B = diffuseB;
-                    if (B > 1) {
-                        B = 1;
-                    }
 
-                    image_writer.setColor(i, j, Color.color(R,G,B));
-                } else if (ambient && spheres.get(0).getCol() == 0) {
-                    image_writer.setColor(i,j, Color.color(spheres.get(0).r * ambientLight, spheres.get(0).g * ambientLight, spheres.get(0).b * ambientLight));
                 }
+            }
 
-
-            } // column loop
-        } // row loop
+            }
+        } else {
+                for (j = 0; j < h; j++) {
+                    for (i = 0; i < w; i++) {
+                        image_writer.setColor(i, j, Color.color(0, 0, 0));
+                    }
+                }
+        }
+        System.out.println(spheres.get(0).lowestShade);
     }
 
+    public static boolean canSeeSpheres() {
+        boolean result = false;
+        for (Sphere sphere : spheres) {
+            if (sphere.canSeeSpheres) {
+                result = true;
+            }
+        }
+        return result;
+    }
 
     public static ArrayList<Sphere> getSpheres() {
         return spheres;
@@ -124,8 +144,8 @@ public class Main extends Application {
         stage.setTitle("Ray Tracing");
         spheres.add(sphereOne);
 
-        //spheres.add(sphereTwo);
-        //spheres.add(sphereThree);
+        spheres.add(sphereTwo);
+        spheres.add(sphereThree);
         //spheres.add(sphereFour);
 
 

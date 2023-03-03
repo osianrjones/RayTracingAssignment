@@ -43,6 +43,12 @@ public class HelloController {
     public ImageView imageView = new ImageView();
     public WritableImage image;
     @FXML
+    public Slider cameraX;
+    @FXML
+    public Slider cameraY;
+    @FXML
+    public Slider cameraZ;
+    @FXML
     public Slider sphereRadius;
     private Sphere currentSphere;
 
@@ -134,12 +140,30 @@ public class HelloController {
         render();
     }
 
+    public void changeCameraX() {
+        Camera.updateX(cameraX.getValue());
+        render();
+    }
+
+    public void changeCameraY() {
+        Camera.updateY(cameraY.getValue());
+        render();
+    }
+
+    public void changeCameraZ() {
+        Camera.updateZ(cameraZ.getValue());
+        render();
+    }
+
     public void setCurrentSpherePosition() {
         this.sphereX.adjustValue(this.currentSphere.getX());
         this.sphereY.adjustValue(this.currentSphere.getY());
         this.sphereZ.adjustValue(this.currentSphere.getZ());
         this.sphereRadius.adjustValue(this.currentSphere.getRadius());
         this.cameraAltitude.adjustValue(Main.getCameraHeight());
+        this.cameraX.adjustValue(Camera.getX());
+        this.cameraY.adjustValue(Camera.getY());
+        this.cameraZ.adjustValue(Camera.getZ());
     }
     public void setCurrentSphereColourSliders() {
         this.redSlider.adjustValue(this.currentSphere.r);
@@ -162,7 +186,9 @@ public class HelloController {
         sphereZ.valueProperty().addListener((observableValue, oldValue, newValue) -> changeSphereZ());
         sphereRadius.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCurrentSphereRadius());
         cameraAltitude.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCameraAltitude());
-
+        cameraX.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCameraX());
+        cameraY.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCameraY());
+        cameraZ.valueProperty().addListener((observableValue, oldValue, newValue) -> changeCameraZ());
     }
 
     public void initialize() {
@@ -172,6 +198,7 @@ public class HelloController {
         setCurrentSpherePosition();
         setSliderListeners();
         setPositionListeners();
+        render();
     }
 
 }
