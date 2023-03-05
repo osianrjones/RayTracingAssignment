@@ -26,12 +26,12 @@ public class Main extends Application {
     public static int Height = 500;
     public static ArrayList<Sphere> spheres = new ArrayList<>();
     public static Stage stage;
-    Sphere sphereOne = new Sphere(0, 0, 1, 0, 1, 0, 50, "sphereOne");
-    Sphere sphereTwo = new Sphere(100, 100, 0, 1, 0, 0, 50, "sphereTwo");
-    Sphere sphereThree = new Sphere(-100, 0, 0, 0, 0, 1, 50, "sphereThree");
+    Sphere sphereOne = new Sphere(200, 0, 1, 0, 1, 0, 50, "sphereOne");
+    Sphere sphereTwo = new Sphere(550, 150, 0, 1, 0, 0, 50, "sphereTwo");
+    Sphere sphereThree = new Sphere(700, 250, 0, 0, 0, 1, 50, "sphereThree");
     Sphere sphereFour = new Sphere(-200, 0, 0, 0, 0, 1, 50, "sphereFour");
     public static int cameraHeight = 0;
-    public static Camera camera = new Camera(0, cameraHeight ,-500);
+    public static Camera camera = new Camera(0, cameraHeight ,-100);
 
 
     public static Vector d = new Vector(0, 0, 1);

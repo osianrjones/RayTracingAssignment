@@ -47,14 +47,14 @@ public class Sphere {
         Vector p = new Vector(0, 0, 0); //p is a 3D point on the sphere
         Vector v; //A line from the centre of the sphere to the origin
 
-        origin.x = i - width/2; //x value of the origin
-        origin.y = j - height/2; //y value of the origin
-        //z value of the origin
+        origin.x = i - Camera.getX(); //x value of the origin
+        origin.y = j - Camera.getY(); //y value of the origin
+        origin.z = Camera.getZ();//z value of the origin
 
         v = origin.sub(cs); //Calculate the vector of the origin to the centre of the sphere
         a = direction.dot(direction); //Calculate a
-        b = 2 * v.dot(direction);  //Calculate b
-        c = v.dot(v) - (this.radius * this.radius); //Calculate c
+        b = v.dot(direction) * 2;  //Calculate b
+        c = ((v.dot(v) - (this.radius * this.radius))); //Calculate c
         double disc = (b * b) - (4 * a * c); //Calculate discriminant
         if (disc < 0) this.col = 0.0;
             else {
